@@ -1,0 +1,28 @@
+function on_load minecraft:load{
+    scoreboard objectives add da1.close trigger
+    scoreboard objectives add da1.timer dummy
+}
+
+function on_tick minecraft:tick{
+    execute as @a[scores={da1.close=-1..}] run function close/da1
+    execute as @a[scores={da1.timer=-1..}] run function video/da1
+}
+
+dir play {
+    function da1 {
+        scoreboard players set @s da1.timer -1
+        scoreboard players enable @s da1.close
+        scoreboard players set @s da1.close -2
+        # playsound da1:jap record @s
+    }
+}
+
+dir close {
+    function da1 {
+        scoreboard players enable @s da1.close
+        scoreboard players set @s da1.close -2
+        scoreboard players reset @s da1.timer
+        # stopsound @s record
+        dialog clear @s
+    }
+}
